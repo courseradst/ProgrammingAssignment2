@@ -49,3 +49,22 @@ cacheSolve <- function(x, ...) {
   x$setinv(inv)
   inv
 }
+
+## additional function impl to achieve similar functionality as above two functions
+## when invoke the function, a matrix operation function is provided, e.g. solve
+## it returns another function that will apply the operation 
+## 1st time execution will engage a computation
+## subsequent execution will retrieve from closure
+
+cacheMatrixOp <- function(func) {
+  cache <- NULL
+  function(x) {
+    if(is.null(cache)) {
+      (cache <<- func(x))
+    }
+    else {
+     message("get from cache")
+     cache
+    }
+  }
+}
